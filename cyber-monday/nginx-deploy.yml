@@ -3,6 +3,26 @@ kind: Deployment
 metadata:
   name: nginx-deployment
 spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      name: just-a-pod
+  template:
+    metadata:
+      labels:
+        name: just-a-pod
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:latest
+          ports:
+            - containerPort: 80
+          env:
+            - name: MY_UID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.uid
+
 # TODO:
 # - Add replicas
 # - Add a selector that matches labels `just-a-pod`
